@@ -38,8 +38,11 @@ function(node)
 fixXML =
 function(file, lines = readLines(file))
 {
-    ll = gsub('""', "''\"", ll)
+    # ll = gsub('""', "''\"", ll)
+    ll = gsub('CONTENT="([^ ]*?)"([^ ]*?)" ', 'CONTENT="\\1&quot;\\2" ', lines, perl = TRUE)
     # Now fix the "...&..."
+    ll = gsub('CONTENT="([^ ]*?)&([^ ]*?)" ', 'CONTENT="\\1&amp;\\2" ', ll, perl = TRUE)
+    ll = gsub('CONTENT="([^ ]*?)\\<([^ ]*?)" ', 'CONTENT="\\1&lt;\\2" ', ll, perl = TRUE)        
     ## gregexpr('="[^"]+")
     ll
 }
