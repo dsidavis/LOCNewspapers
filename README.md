@@ -1,3 +1,19 @@
+# Usage
+
+```
+source("R/xmlFuns2.R")
+z = readABBYY("Newspaper Article 5/Newspaper Article 5 Text.txt")
+head(z)
+```
+
+```
+plot.ABBYY(z, imageFile = "Newspaper Article 5/seq-8.tiff")
+```
+
+
+
+# Format of the File
+
 In addition to be named file.txt rather than file.xml,
 the XML generated from Abbyy is not necessarily valid XML.
 We can use the xmllint command line tool to see where errors occur
@@ -15,9 +31,9 @@ The err is on line 44. The line reads:
 Note the two " at the end of the CONTENT attribute.
 This is from the text "I shall order them excluded" at the very top of the page
 which is actually on a page underneath the main page. This text ends in ''
-and Abbyy did not escape the closing quote in the text as &quot;&quot; but just ".
+and Abbyy did not escape the closing quote in the text as &quot; but just ".
 
-So we could replace all "" with `&quot;&quot;"` before we read the XML.
+So we could replace all "" with `&quot;"` before we read the XML.
 
 We also have CONTENT="$t.0&.".  Again, the & needs to be escaped as `&amp;`.
 
