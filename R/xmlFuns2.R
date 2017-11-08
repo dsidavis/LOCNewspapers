@@ -15,10 +15,15 @@ function(file, doc = xmlParse(fixXML(file), asText = TRUE))
     nv = c("HEIGHT", "WIDTH", "HPOS", "VPOS")
     ans[nv] = lapply(ans[nv], as.numeric)
 
+    if(!("STYLEREFS" %in% names(ans))) 
+       ans$STYLEREFS = xpathSApply(doc, "//x:String", function(x) xmlGetAttr(xmlParent(x), "STYLEREFS"), namespaces = "x")
+    
     # Add the font size information for each string
     sty = getNodeSet(doc, "//x:Styles/x:TextStyle", "x")
     fontsize = as.numeric(sapply(sty, xmlGetAttr, "FONTSIZE"))
-    names(fontsize) = sapply(sty, xmlGetAttr, "ID")    
+    names(fontsize) = sapply(sty, xmlGetAttr, "ID")
+
+    
     ans$fontSize = fontsize[ans$STYLEREFS]
     
     ans
